@@ -47,10 +47,10 @@ function Install-Chocolatey {
 function Install-Chocolatey-Packages {
     choco feature enable -n allowGlobalConfirmation
     
-    choco install vscode
     choco install git --version=2.32.0.2
-    choco install visualstudio2019community
-    choco install visualstudio2019-workload-nativedesktop
+    choco install vscode --version=1.58.2
+    choco install visualstudio2019community --version=16.10.4.0
+    choco install visualstudio2019-workload-nativedesktop --version=1.0.1
 }
 
 function Install-WPILib() {
