@@ -6,7 +6,7 @@ if (!(Test-Path $tmpDir)) {
     mkdir $tmpDir
 }
 
-function Uri-To-Filename($uri) {
+function Get-Filename($uri) {
     return $uri.split("/")[-1]
 }
 
@@ -15,7 +15,7 @@ function File-Is-Missing($filename) {
 }
 
 function Download($uri) {
-    $filename = Uri-To-Filename $uri
+    $filename = Get-Filename $uri
 
     Write-Output "Downloading ${filename}"
 
@@ -48,12 +48,14 @@ function Install-Chocolatey-Packages {
     choco feature enable -n allowGlobalConfirmation
     
     choco install vscode
-    choco install git --version=2.32.0.2 
+    choco install git --version=2.32.0.2
+    choco install visualstudio2019community
+    choco install visualstudio2019-workload-nativedesktop
 }
 
 function Install-WPILib() {
     $uri = "https://github.com/wpilibsuite/allwpilib/releases/download/v2021.3.1/WPILib_Windows64-2021.3.1.iso"
-    $filename = Uri-To-Filename $uri
+    $filename = Get-Filename $uri
 
     if (Test-Path C:/Users/Public/wpilib/2021) {
         Write-Output "WPILib already installed"
