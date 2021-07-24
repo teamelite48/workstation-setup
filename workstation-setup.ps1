@@ -11,7 +11,7 @@ function Get-Filename($uri) {
 }
 
 function File-Is-Missing($filename) {
-    return !(Test-Path -Path $tmpDir/$filename)
+    return !(Test-Path $tmpDir/$filename)
 }
 
 function Download($uri) {
@@ -25,7 +25,7 @@ function Download($uri) {
 function Mount-ISO-And-Run($isoPath, $filename) {
     $mountResult = Mount-DiskImage -ImagePath $isoPath -PassThru
     $isoDrive = ($mountResult | Get-Volume).DriveLetter
-    $runPath = "${isoDrive}:\$filename"
+    $runPath = "${isoDrive}:/$filename"
 
     $process = Start-Process $runPath -PassThru 
     $process.WaitForExit()
@@ -48,19 +48,18 @@ function Install-Chocolatey-Packages {
     choco feature enable -n allowGlobalConfirmation
     
     choco install git --version=2.32.0.2
-    choco install vscode --version=1.58.2
     choco install visualstudio2019community --version=16.10.4.0
     choco install visualstudio2019-workload-nativedesktop --version=1.0.1
 }
 
 function Install-WPILib() {
-    $uri = "https://github.com/wpilibsuite/allwpilib/releases/download/v2021.3.1/WPILib_Windows64-2021.3.1.iso"
-    $filename = Get-Filename $uri
-
     if (Test-Path C:/Users/Public/wpilib/2021) {
         Write-Output "WPILib already installed"
         return
     }
+
+    $uri = "https://github.com/wpilibsuite/allwpilib/releases/download/v2021.3.1/WPILib_Windows64-2021.3.1.iso"
+    $filename = Get-Filename $uri
 
     if (File-Is-Missing $filename) {
         Download $uri
@@ -72,6 +71,27 @@ function Install-WPILib() {
     Mount-ISO-And-Run $isoPath "WPILibInstaller"
 }
 
+function Install-CTRE-Phoenix-Framework() {
+    if (Test-Path "C:/Users/Public/Documents/Cross The Road Electronics") {
+        Write-Output "CTRE Pheonix Framework already installed"
+        return
+    }
+
+    $uri = "https://github.com/CrossTheRoadElec/Phoenix-Releases/releases/download/v5.19.4.1/CTRE_Phoenix_Framework_v5.19.4.1.exe"
+    $filename = Get-Filename $uri
+    
+    if (File-Is-Missing $filename) {
+        Download $uri
+    }
+
+    Write-Output "Launching CTRE Pheonix Framework Setup"
+
+    $runPath = "$tmpDir/$filename"
+    $process = Start-Process $runPath -PassThru 
+    $process.WaitForExit()
+}
+
 Install-Chocolatey
 Install-Chocolatey-Packages
 Install-WPILib
+Install-CTRE-Phoenix-Framework
