@@ -27,7 +27,7 @@ function Mount-ISO-And-Run($isoPath, $filename) {
     $isoDrive = ($mountResult | Get-Volume).DriveLetter
     $runPath = "${isoDrive}:/$filename"
 
-    $process = Start-Process $runPath -PassThru 
+    $process = Start-Process $runPath -PassThru
     $process.WaitForExit()
 
     Dismount-DiskImage -ImagePath $isoPath
@@ -46,10 +46,8 @@ function Install-Chocolatey {
 
 function Install-Chocolatey-Packages {
     choco feature enable -n allowGlobalConfirmation
-    
+
     choco install git --version=2.32.0.2
-    choco install visualstudio2019community --version=16.10.4.0
-    choco install visualstudio2019-workload-nativedesktop --version=1.0.1
 }
 
 function Install-WPILib() {
@@ -79,7 +77,7 @@ function Install-CTRE-Phoenix-Framework() {
 
     $uri = "https://github.com/CrossTheRoadElec/Phoenix-Releases/releases/download/v5.19.4.1/CTRE_Phoenix_Framework_v5.19.4.1.exe"
     $filename = Get-Filename $uri
-    
+
     if (File-Is-Missing $filename) {
         Download $uri
     }
@@ -87,7 +85,7 @@ function Install-CTRE-Phoenix-Framework() {
     Write-Output "Launching CTRE Pheonix Framework Setup"
 
     $runPath = "$tmpDir/$filename"
-    $process = Start-Process $runPath -PassThru 
+    $process = Start-Process $runPath -PassThru
     $process.WaitForExit()
 }
 
