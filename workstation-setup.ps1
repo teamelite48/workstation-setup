@@ -10,7 +10,7 @@ function Get-Filename($uri) {
     return $uri.split("/")[-1]
 }
 
-function File-Is-Missing($filename) {
+function Is-File-Missing($filename) {
     return !(Test-Path $tmpDir/$filename)
 }
 
@@ -51,15 +51,15 @@ function Install-Chocolatey-Packages {
 }
 
 function Install-WPILib() {
-    if (Test-Path C:/Users/Public/wpilib/2021) {
+    if (Test-Path C:/Users/Public/wpilib/2022) {
         Write-Output "WPILib already installed"
         return
     }
 
-    $uri = "https://github.com/wpilibsuite/allwpilib/releases/download/v2021.3.1/WPILib_Windows64-2021.3.1.iso"
+    $uri = "https://github.com/wpilibsuite/allwpilib/releases/download/v2022.1.1/WPILib_Windows64-2022.1.1.iso"
     $filename = Get-Filename $uri
 
-    if (File-Is-Missing $filename) {
+    if (Is-File-Missing $filename) {
         Download $uri
     }
 
@@ -72,19 +72,30 @@ function Install-WPILib() {
 function Install-CTRE-Phoenix-Framework() {
     if (Test-Path "C:/Users/Public/Documents/Cross The Road Electronics") {
         Write-Output "CTRE Pheonix Framework already installed"
-        return
+
+        $install = Read-Host "Would you like to install the 2022 version? (y/N)"
+
+        if ($install -ne 'y') {
+            return
+        }
     }
 
-    $uri = "https://github.com/CrossTheRoadElec/Phoenix-Releases/releases/download/v5.19.4.1/CTRE_Phoenix_Framework_v5.19.4.1.exe"
+    $uri = "https://github.com/CrossTheRoadElec/Phoenix-Releases/releases/download/v5.20.2.2/CTRE_Phoenix_Framework_v5.20.2.2.exe"
     $filename = Get-Filename $uri
 
-    if (File-Is-Missing $filename) {
+    if (Is-File-Missing $filename) {
         Download $uri
     }
 
     Write-Output "Launching CTRE Pheonix Framework Setup"
 
     $runPath = "$tmpDir/$filename"
+    $process = Start-Process $runPath -PassThru
+    $process.WaitForExit()
+}
+
+function Uninstall-CTRE-Pheonix-Framework() {
+    $runPath = "C:\Users\Public\Documents\Cross The Road Electronics"
     $process = Start-Process $runPath -PassThru
     $process.WaitForExit()
 }
