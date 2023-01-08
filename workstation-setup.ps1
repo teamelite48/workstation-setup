@@ -1,5 +1,3 @@
-# Set-ExecutionPolicy Bypass -Scope Process
-
 $tmpDir = "$PSScriptRoot/tmp"
 
 if (!(Test-Path $tmpDir)) {
@@ -47,16 +45,16 @@ function Install-Chocolatey {
 function Install-Chocolatey-Packages {
     choco feature enable -n allowGlobalConfirmation
 
-    choco install git --version=2.32.0.2
+    choco install git --version=2.39.0
 }
 
 function Install-WPILib() {
-    if (Test-Path C:/Users/Public/wpilib/2022) {
+    if (Test-Path C:/Users/Public/wpilib/2023) {
         Write-Output "WPILib already installed"
         return
     }
 
-    $uri = "https://github.com/wpilibsuite/allwpilib/releases/download/v2022.1.1/WPILib_Windows64-2022.1.1.iso"
+    $uri = "https://github.com/wpilibsuite/allwpilib/releases/download/v2023.1.1/WPILib_Windows-2023.1.1.iso"
     $filename = Get-Filename $uri
 
     if (Is-File-Missing $filename) {
@@ -73,14 +71,14 @@ function Install-CTRE-Phoenix-Framework() {
     if (Test-Path "C:/Users/Public/Documents/Cross The Road Electronics") {
         Write-Output "CTRE Pheonix Framework already installed"
 
-        $install = Read-Host "Would you like to install the 2022 version? (y/N)"
+        $install = Read-Host "Would you like to install the 2023 version? (y/N)"
 
         if ($install -ne 'y') {
             return
         }
     }
 
-    $uri = "https://github.com/CrossTheRoadElec/Phoenix-Releases/releases/download/v5.20.2.2/CTRE_Phoenix_Framework_v5.20.2.2.exe"
+    $uri = "https://github.com/CrossTheRoadElec/Phoenix-Releases/releases/download/v5.30.2.0/CTRE_Phoenix_Framework_v5.30.2.1.exe"
     $filename = Get-Filename $uri
 
     if (Is-File-Missing $filename) {

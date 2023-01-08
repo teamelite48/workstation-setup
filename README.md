@@ -1,4 +1,4 @@
-# Workstation Setup for the 2022 FRC Season
+# Workstation Setup for the 2023 FRC Season
 
 1. **Run Setup Script**
     1. **Open** Windows PowerShell as Administrator
@@ -11,9 +11,8 @@
         1. **Click** Install for this User
         1. **Click** Download for this computer only (fastest)
         1. **Click** Next
-        1. **Click** Install for this User
         1. **Click** Finish when installation is complete
-    1. **If** asked to install the 2022 version of CTRE Pheonix Framework
+    1. **If** asked to install the 2023 version of CTRE Pheonix Framework
         1. **Answer** `y`
     1. **When** CTRE Pheonix Framework Seteup Opens
         1. **Install** with default options
@@ -26,6 +25,6 @@
 # What's Included
 
 * Chocolatey - software management automation
-* Git - version control for source code
-* WPILIb 2022.1.1 - software library for FRC robots
-* CTRE Phoenix Framework 5.20.2.2 - motor library and tools for Talon FX
+* Git 2.39.0 - version control for source code
+* WPILIb 2023.1.1 - software library for FRC robots
+* CTRE Phoenix Framework 5.30.2.1 - motor library and tools for Talon FX
